@@ -1,4 +1,5 @@
 import argparse
+from src.pdf_manager_lucapl import pdfDeleter, pdfMerger
 
 def main():
     parser = argparse.ArgumentParser(
