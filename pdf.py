@@ -1,7 +1,7 @@
 import argparse
 import os
 import re
-from src.pdf_manager_lucapl.pdfManagers import *
+from pdf_manager_lucapl.pdfManagers import *
 
 # def get_pdfs(dir_path):
 #     to_return = []
