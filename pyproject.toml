@@ -1,0 +1,21 @@
+[build-system]
+requires = [hatchling]
+build-backend = hatchling.build
+
+[project]
+name = "pdf_manager_lucapl"
+version = "0.0.1"
+authors = [
+  { name="lucapl", email="lukasz.andryszewski@outlook.com" },
+]
+description = "Package for the python manager script"
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/lucapl/PdfManager"
+"Bug Tracker" = "https://github.com/lucapl/PdfManager/issues"
