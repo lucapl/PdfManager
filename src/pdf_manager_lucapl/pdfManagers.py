@@ -27,23 +27,26 @@ class Merger:
 class Deleter:
 
     def __init__(self, pdf, pages, pdf_reader_args=None, output="output.pdf", verbose=False):
-        pdf_reader_args = {"stream": pdf} | pdf_reader_args
-        self.infile = PdfReader(pdf, **pdf_reader_args)
+        pdf_reader_args = {"stream": pdf} | pdf_reader_args if pdf_reader_args else {"stream": pdf}
+        self.infile = PdfReader(**pdf_reader_args)
         self.writer = PdfWriter()
         self.output = output
         self.verbose = verbose
         self.pages = sorted(tuple(
-            set(range(self.infile.numPages)) - set(map(int, pages))
+            set(range(self.infile.numPages)) - set(pages)
         ))
 
     def delete_pages(self):
         for i in self.pages:
             if self.verbose:
-                print("Deleting page:", i)
+                print("Preserving page:", i)
             p = self.infile.pages[i]
             self.writer.add_page(p)
 
-        with open(self.output, 'wb') as f:
-            self.writer.write(f)
+        if self.verbose:
+            print("Saving...")
+        self.writer.write(self.output)
+
+        print(f"Generated: {self.output}")
 
         return 0

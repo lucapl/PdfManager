@@ -22,7 +22,7 @@ def main():
                         action="extend",
                         help="deletes selected pages of the pdfs",
                         nargs="+",
-                        type=str)
+                        type=int)
     parser.add_argument("-O", "--output",
                         default="./output/output.pdf",
                         action="store",
@@ -32,6 +32,8 @@ def main():
     pdfs = args.filenames
     output = args.output
 
+    print(args)
+
     if args.merge:
         Merger(
             pdfs,
@@ -39,13 +41,13 @@ def main():
             verbose=args.verbose
         ).merge()
 
-    if args.delete:
+    if args.delete is not None:
         Deleter(
-            pdfs,
+            pdfs[0],
             args.delete,
             output=output,
             verbose=args.verbose
-        )
+        ).delete_pages()
 
     return 0
 
