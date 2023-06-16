@@ -1,7 +1,16 @@
 import argparse
+import os
+import re
 from src.pdf_manager_lucapl.pdfManagers import *
 
-
+# def get_pdfs(dir_path):
+#     to_return = []
+#     for dir, dirname, filename in os.walk(dir_path):
+#         if not filename is None and filename re.match(""):
+#             to_return.append(dir+filename)
+#         if not dirname is None:
+#             to_return += get_pdfs(dirname)
+#     return to_return
 def main():
     parser = argparse.ArgumentParser(
         prog='PdfManager',
@@ -30,9 +39,20 @@ def main():
 
     args = parser.parse_args()
     pdfs = args.filenames
-    output = args.output
 
-    print(args)
+
+
+    #pdfs = [item for item in pdfs if not os.path.isdir(item)]
+    new_pdfs = list(filter(lambda pdf: not os.path.isdir(pdf),pdfs))
+    pdf_end = re.compile(r'.*\.pdf$')
+    for item in pdfs:
+        if not os.path.isdir(item):
+            break
+        for dir, dirname, filename in os.walk(item):
+            new_pdfs += [dir+"\\"+file for file in filename if filename is not None and re.match(pdf_end, file)]
+    pdfs = new_pdfs
+
+    output = args.output
 
     if args.merge:
         Merger(
