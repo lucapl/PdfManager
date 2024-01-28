@@ -27,18 +27,19 @@ jobs:
       run: |
         pyinstaller --onefile pdf.py
 
-    - name: Read version from file
-      id: version
-      run: echo "{version}=$(cat version.txt)" >> $GITHUB_OUTPUT
+    - name: Set variables
+      run: |
+        VER=$(cat version.txt)
+        echo "VERSION=$VER" >> $GITHUB_ENV
 
     - name: Create realease
       id: create_release
       uses: actions/create-release@v1
       with:
-        tag_name: ${{ steps.version.outputs.version }}
-        release_name: Release ${{ steps.version.outputs.version }}
+        tag_name: ${{ env.VERSION }}
+        release_name: Release ${{ env.VERSION }}
         body: |
-          Release ${{ steps.version.outputs.version }}
+          Release ${{ env.VERSION }}
         draft: false
         prerelease: false
         commitish: ${{ github.sha }}
