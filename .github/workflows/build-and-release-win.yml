@@ -1,0 +1,47 @@
+name: Build and release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version 3.8
+
+    - name: Install dependencies
+      run: |
+        pip install -r requirements.txt
+        pip install pyinstaller
+    
+    - name: Build exec
+      run: |
+        pyinstaller --onefile pdf.py
+
+    - name: Create realease
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        files: |
+          dist/pdf.exe
+      env:
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+    - name: Publish release
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: dist/your_script.exe
+        asset_name: your_script.exe
+        asset_content_type: application/octet-stream
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
