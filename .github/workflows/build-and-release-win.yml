@@ -29,7 +29,7 @@ jobs:
 
     - name: Read version from file
       id: version
-      run: echo "::set-output name=version::$(cat version.txt)"
+      run: echo "{version}=$(cat version.txt)" >> $GITHUB_OUTPUT
 
     - name: Create realease
       id: create_release
