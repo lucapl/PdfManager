@@ -27,12 +27,19 @@ jobs:
       run: |
         pyinstaller --onefile pdf.py
 
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Set variables
       run: |
-        VER=$(cat version.txt)
-        echo "VERSION=$VER" >> $GITHUB_ENV
+        echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
 
-    - name: Create realease
+    - name: Create release
       id: create_release
       uses: actions/create-release@v1
       with:
