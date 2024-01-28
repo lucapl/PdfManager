@@ -40,8 +40,8 @@ jobs:
       uses: actions/upload-release-asset@v1
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: dist/your_script.exe
-        asset_name: your_script.exe
+        asset_path: dist/pdf.exe
+        asset_name: pdf.exe
         asset_content_type: application/octet-stream
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
